@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+
+	
+
+
+
+</body>
+
+<script type="text/javascript">
+
+	//es6的东西的；
+
+	// es5 
+
+	// function People(name,age){
+	// 	this.name = name;
+	// 	this.age =age;
+	// 	this.showname =function(){
+	// 		alert(this.name);
+	// 	}
+	// }
+
+
+	// var obj1 = new People('tom',18);
+
+	// // obj1
+
+	// function Manger (name,age,password){
+	// 	People.call(this,name,age);
+	// 	this.password = password;
+	// }
+
+	// var obj2 = new Manger('jick',28,12345);
+
+	// //obj2.showname();
+
+	// console.log(obj2.password)
+
+
+	//es6
+
+	// class People{
+	// 	constructor(name,age){
+	// 		this.name = name;
+	// 		this.age = age;
+	// 	}
+	// 	showname(){
+	// 		alert(this.name)
+	// 	}
+	// }
+
+	// var obj1 = new People('lalla',18);
+
+	// console.log(obj1.name)
+
+	// obj1.showname();
+
+
+
+	// class People2 extends People {
+	// 	constructor(name,age,password) {
+	// 		super(name,age);
+	// 		this.password = password;
+	// 	}
+	
+	// 	showage(){
+	// 		alert(this.age);
+	// 	}
+
+	// 	static getmest(){
+	// 		return 'hello';
+	// 	}
+	// }
+
+	// var ob2 = new People2('heheih',16,321);
+
+	// ob2.showage();
+
+	//结构赋值
+
+	// let [a,b,c] = [1,'tom','jiekce'];
+
+	// const obj = {name:'tom',age:18}
+
+	// console.log(obj.name);
+
+	// let {name,age} = {age:18,name:'dou'};
+
+	// console.log(name)
+
+
+	// function show({b}){
+	// 	console.log(b)
+	// }
+
+	// show({a:1,b:2});
+
+	// let a ='love';
+
+	// console.log(`i ${a} you`)
+
+	// function show(x,y=5){
+	// 	console.log(x,y);
+	// }
+
+	// show(1,4);
+
+	// show(1);
+
+	// show(,1);
+
+	// this函数的
+
+	// var obj ={
+	// 	a:5,
+	// 	fun:function(){
+	// 		console.log(this.a);
+	// 	},
+	// 	fun2:function(){
+	// 		var that = this;
+	// 		setTimeout(function(){
+	// 			console.log(this);
+	// 			that.fun();
+	// 		},1)
+	// 	}
+
+	// }
+
+	// obj.fun();
+
+	// obj.fun2();
+
+
+	var obj ={};
+
+	Object.defineProperty(obj,"b",{
+		value:10
+	})
+
+
+	console.log(obj);
+
+
+
+
+
+	
+
+
+
+
+</script>
+</html>
