@@ -1,4 +1,99 @@
 
+1:HTTP协议
+
+2:前端安全
+
+3：常用的三驾马车
+
+4：基础知识，跨域，es6新的语法
+
+5：Node.js的开发 ，expresss,koa等常用的框架
+
+6：数据库知识
+
+7：能封装业务组件和公用组件
+
+8：在技术选型上，能给出你选择的方案是
+
+9：前端性能优化
+
+10:前后端分离
+
+1：前端架构 ，设计模式
+
+2:前端工程化开发 ，测试，打包，发布；
+
+3：自己实现前端架构代码以及开发工具；
+
+
+-------------------------------------------
+
+  *从浏览器接受到url到开启网络请求线程；
+
+  	·多进程的浏览器
+  	·多线程的浏览器内核
+  	·解析url
+  	·网络请求都是单线程
+
+  *开启网络线程到发出一个完整的http请求；
+
+  	·DNS查询得到IP
+  	·tcp/ip请求
+  	·五层因特网协议
+
+  *从服务器接受到请求到对应的后台接受到请求
+
+  	·负载均衡
+  	·后台处理
+
+  *后台和前台的Http交互
+
+  	·http报文结构
+  	·cookie以及优化
+    ·gzip压缩
+    ·长连接与短连接
+    ·http 2.0
+    ·hhtps
+
+   *单独拎出来缓存问题 ，http的缓存
+
+   	·强缓存与弱缓存
+   	·缓存头部简述
+   	·头部的区别
+
+   *解析页面的流程
+
+   	·流程简述
+   	·html解析，构建DOM
+   	·生成css规则
+   	·构建渲染树
+   	·渲染
+   	·简单层与复合层
+	·chrome中的调试
+	·资源的外链的下载
+	·loaded和domacontentloaded 
+
+ 	*css的可视化格式模型
+ 		·包含块；
+ 		·控制框
+ 		·BFC
+ 		·IFC
+ 		·其他
+
+ 	*js 引擎解析过程
+
+ 		·js的解析阶段
+ 		·js的预处理阶段
+ 		·js的执行阶段
+ 		·回收机制
+
+
+
+
+
+
+
+
 
 
 -----------------------------css 布局
@@ -97,18 +192,42 @@
 
   跨域 ：
 
-  	jsonp:只能实现get 格式的；
+	1jsonp 
+
+	2cors
+
+
+	var xhr = new XMLHttpRequest(); // IE8/9需用window.XDomainRequest兼容
+
+	// 前端设置是否带cookie
+	xhr.withCredentials = true;
+
+	xhr.open('post', 'http://www.domain2.com:8080/login', true);
+	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	xhr.send('user=admin');
+
+	xhr.onreadystatechange = function() {
+	    if (xhr.readyState == 4 && xhr.status == 200) {
+	        alert(xhr.responseText);
+	    }
+	};
+
+
+	并且nginx中设置  proxy_cookie_dimain
+
+	
+	webpack.config.js：中的proxy;
+
+
+	3window.name  （存值较大的）
+
+	4document domain  iframe (主域相同，子域不同的)
+
+	5postmessage  页面之前和窗口的传递的
 
 
 
-
-  	document.domain:主域名相同的；
-
-  	
-  	location.hash+ iframe跨域的
-
-
-  	window.name
+  
 
 
 	------------------------------------------
@@ -116,6 +235,8 @@
 	setTimeout({
 		this//指的是window;
 	},1)
+
+	
 
 
   	es6:----------------------------------------
@@ -154,7 +275,9 @@
 				}
 			}
 
-		2:Object.keys()   //获取对象的键值
+		2:Object.keys()   //获取对象的键值生成新的数组
+
+	 	 :Object.values() //获取对象的值
 
 		3:Object.assign() //合并新的对象；
 
@@ -166,6 +289,28 @@
 
 				}
 			}) 
+
+		5：Object.is(obj1,obj2);
+
+	Symbol:新的数据类型的；通过
+
+
+
+
+	数组的扩展：
+
+	...arr1,...arr2 //将一个数组转为逗号分隔的参数序列；
+
+	Array.from() //用于类似数组中创建一个新的数组
+
+	Array.of() //创建一个新的数组
+
+	Array.copyWithin()// 移动位置的
+
+
+
+
+
 
 
 
@@ -190,6 +335,52 @@
 
 	module export和import 
 
+	Set和Map---------
+
+	Set:本身就是一个构造函数，用来生成set()数据结构  (更多是数组)
+
+	const set = new Set([1,2,2,3,3,3,4]); //[1,2,3,4];
+
+	set.add()
+
+	set.delete()
+
+	set.has()
+
+	set.clear()
+
+
+	Map:提供了一种 值：值 得方式 （更多的是对象）
+	
+	const map =new Map();
+
+	const obj = {p:'hello'}
+	
+	map.set(obj,'content');
+	map.get(obj);//content
+
+	map.has(o);
+	map.delete(o);
+	map.has(o);
+
+-----------------------------
+
+Proxy:用于修改某些默认的操作；
+
+
+get():用于拦截某个属性的读取操作
+
+set():用于拦截某个属性的赋值操作
+
+	
+------------------------------
+
+
+
+
+
+
+
 
 ------------------vue.js--------------------------
 
@@ -200,6 +391,42 @@
  cnpm install 
 
  cnpm run dev
+
+
+
+--------------------------------------------------
+
+1：compured和methods 的区别
+
+	methods:是个方法 ，你要点击执行一个方法；
+
+	computed:是计算属性，实时响应的，当data里的值变化时，会做出响应的处理
+
+	watch；是用来观察实例上的数据的变动
+
+2：vue响应原理:
+
+
+	通过Observer 对data 做监听，并且提供了订阅某些数据项变化的能力；
+
+	把template 编译成一段 document fragment, 然后解析 其中的 Directive ,然后得到directive 所依赖的数据项和update方法
+
+	通过watch 把上述两部分结合起来，即把 directive 中的数据依赖通过wathcher 订阅在对应的oberver ，
+
+	当数据有变化时，就会触发oberver的dep 上的 notify方法通知对应的watcher 的update ,进而触发directive的update方法来更新ＤＯＭ视图；
+
+3：请说下封装vue的过程；
+
+    组件化，开发效率高，易于维护 ，可复用性高
+
+    
+    Vue.extend():创建一个组件
+
+    Vue.component()注册组件
+
+    以在props中接受定义。而子组件修改好数据后，想把数据传递给父组件。可以采用emit方法
+
+4:vuex:
 
 
 
