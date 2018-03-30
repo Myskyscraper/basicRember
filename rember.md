@@ -395,6 +395,7 @@ set():用于拦截某个属性的赋值操作
 
 
 --------------------------------------------------
+//https://juejin.im/post/5a9b8417518825558251ce15?utm_medium=fe&utm_source=weixinqun
 
 1：compured和methods 的区别
 
@@ -427,6 +428,11 @@ set():用于拦截某个属性的赋值操作
     以在props中接受定义。而子组件修改好数据后，想把数据传递给父组件。可以采用emit方法
 
 4:vuex:
+
+
+5:Vue computed 实现
+
+6： Vue differ 算法的实现
 
 
 
