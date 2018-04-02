@@ -360,12 +360,16 @@
 	map.get(obj);//content
 
 	map.has(o);
+
 	map.delete(o);
+
 	map.has(o);
 
 -----------------------------
 
+
 Proxy:用于修改某些默认的操作；
+
 
 
 get():用于拦截某个属性的读取操作
@@ -383,6 +387,7 @@ set():用于拦截某个属性的赋值操作
 
 
 ------------------vue.js--------------------------
+
 
  vue init webpack vue-cli
 
@@ -408,7 +413,7 @@ set():用于拦截某个属性的赋值操作
 2：vue响应原理:
 
 
-	通过Observer 对data 做监听，并且提供了订阅某些数据项变化的能力；
+	通过Observer 对data 做监听，用Object.defineProperty，将要观察的对象，转化成getter/setter，以便拦截对象赋值与取值操作，并且提供了订阅某些数据项变化的能力；
 
 	把template 编译成一段 document fragment, 然后解析 其中的 Directive ,然后得到directive 所依赖的数据项和update方法
 
@@ -416,23 +421,114 @@ set():用于拦截某个属性的赋值操作
 
 	当数据有变化时，就会触发oberver的dep 上的 notify方法通知对应的watcher 的update ,进而触发directive的update方法来更新ＤＯＭ视图；
 
+	
+
+
+
+
+
+
+
+
+
+
+
 3：请说下封装vue的过程；
 
     组件化，开发效率高，易于维护 ，可复用性高
 
-    
     Vue.extend():创建一个组件
 
     Vue.component()注册组件
 
     以在props中接受定义。而子组件修改好数据后，想把数据传递给父组件。可以采用emit方法
 
+
+
 4:vuex:
+
+	state       状态保存的器
+
+	mutations : 修改数据的 
+
+	action :    异步处理的
+
+	getter :    计算属性的
 
 
 5:Vue computed 实现
 
+	data中的数据直接对属性的get,set做数据拦截 而computed则建立一个新的watche
+
+	在组件渲染的时候 先touch computer的getter函数，将这个getter函数订阅起来的
+
+	touch完后。Dep.target 此时又变为之前那个用于更新组件的。再通过watcher.depend()将这个组统一加上这个订阅。
+
+
+
+
+
 6： Vue differ 算法的实现
+	逐步遍历newVdom的节点，找到他在oldVdom中的位置
+
+	
+
+7：虚拟dom是如何工作的；
+
+	https://blog.csdn.net/yczz/article/details/51292169
+
+	javascript很快，用javascript对象可以很容易地表示DOM节点。
+
+
+
+	Velement(tagname,props,child){
+
+	}
+
+
+	根据虚拟DOM树构建出真实的DOM树
+
+	VElement.prototype.render = function() {
+    //创建标签
+    var el = document.createElement(this.tagName);
+    //设置标签的属性
+    var props = this.props;
+    for (var propName in props) {
+        var propValue = props[propName]
+        util.setAttr(el, propName, propValue);
+    }
+
+
+    比较两者的差值
+
+    我们很少跨级别的修改DOM节点，通常是修改节点的属性、调整子节点的顺序、添加子节点等。因此，我们只需要对同级别节点进行比较，
+
+    修改节点属性, 用PROPS表示
+
+	修改节点文本内容, 用TEXT表示
+
+	替换原有节点, 用REPLACE表示
+
+	调整子节点，包括移动、删除等，用REORDER表示
+
+
+	(3).对真实DOM进行最小化修改
+	
+
+	上文深度优先遍历过程产生了用于记录两棵树之间差异的数据结构patches, 通过使用patches我们可以方便对真实DOM做最小化的修改
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
