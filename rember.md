@@ -35,6 +35,7 @@
   	·解析url
   	·网络请求都是单线程
 
+
   *开启网络线程到发出一个完整的http请求；
 
   	·DNS查询得到IP
@@ -103,7 +104,10 @@ Content-Type:客户端发出的实体类型
 
 Cache-Control:指定请求和响应应遵循的缓存机制  //强缓存的
 
-If-Modified-Since:对应服务端的Last-Modified,用来匹配文件是否变动； //协商缓存的；
+If-Modified-Since:对应服务端的Last-Modified,用来匹配文件是否变动； //协商缓存的； 
+
+If-None-Match/E-tag:协商缓存的 
+
 
 Expires: 缓存控制，在这个时间内不会请求，直接使用缓存，http1.0, http是服务端时间
 
@@ -122,7 +126,6 @@ Referer:该页面来源URL（适用于所有类型的请求，）
 User-agent:用户客户端的一些必要信息，如ua头部；
 
 
-
 响应头部分
 
 --------------------------------------------------------------------
@@ -137,9 +140,9 @@ Content-Type：服务端返回的实体内容的类型
 
 Date:数据从服务器发送的时间
 
-Cache-Control:告诉浏览器或客户，什么环境安全可以缓存文档
+Cache-Control:告诉浏览器或客户，什么环境安全可以缓存文档//（http1.1）Cache-Control/Max-Age~强缓存
 
-Expires：应该在什么时候认为文档已经过期,从而不再缓存它
+Expires：应该在什么时候认为文档已经过期,从而不再缓存它  // (http1.0) Pragma/Expires
 
 Max-age：客户端的本地资源应该缓存多少秒，开启了Cache-Control后有效
 
@@ -489,15 +492,17 @@ get():用于拦截某个属性的读取操作
 
 set():用于拦截某个属性的赋值操作
 
-	
 ------------------------------
 
 Object.defineProperty(obj, prop, descriptor)  //操作符的
 
 obj
 	要在其上定义属性的对象。
+
 prop
+
 	要定义或修改的属性的名称。
+
 descriptor
 	将被定义或修改的属性描述符。
 
@@ -575,9 +580,6 @@ Object.defineProperty(o, "b", {
 
 
 
-
-
-
 3：请说下封装vue的过程；
 
     组件化，开发效率高，易于维护 ，可复用性高
@@ -587,6 +589,11 @@ Object.defineProperty(o, "b", {
     Vue.component()注册组件
 
     以在props中接受定义。而子组件修改好数据后，想把数据传递给父组件。可以采用emit方法
+
+
+
+
+
 
 
 
@@ -604,32 +611,35 @@ Object.defineProperty(o, "b", {
 5:Vue computed 实现
 
 	------------------
-	初始化 data，使用Object.defineProperty把这些属性全部转化为getter/setter
+	初始化data,object.defineProperty把这些属性全部转为 getter/setter;
 
-	初始化 computed,遍历computed里的每个属性，每个computed属性都是一个watch实例。
-	每个属性提供的函数作为属性的getter,使用object.defineProperty转化。
+	初始化 computed, 遍历 computed 里的每个属性，每个computed 属性都是一个 watch 实例。每个属性提供的函数用作vm.reversedMessage的 getter ;使用 Object.defineProperty 转化。
+	
+	（当执行messsage 方法时） =》触发响应的reversemessage重新计算；
+	
+	Object.defineProperty getter 依赖收集。用于依赖发生变化时，触发属性重新计算。
 
-	object.defineProperty getter依赖收集。用于依赖发生变化时，触发属性重新计算。
+	若出现当前 computed 计算属性嵌套其他 computed 计算属性时，先进行其他的依赖收集。
+	
 
 
 	------------------
 
 
-	data中的数据直接对属性的get,set做数据拦截 而computed则建立一个新的watche
-
-	在组件渲染的时候 先touch computer的getter函数，将这个getter函数订阅起来的
-
-	touch完后。Dep.target 此时又变为之前那个用于更新组件的。再通过watcher.depend()将这个组统一加上这个订阅。
-
+1:虚拟DOM底层实现思路
+2:数据双向绑定的思路
+3:vue的生命周期
+	
 
 
 
 6： Vue differ 算法的实现
+
 	逐步遍历newVdom的节点，找到他在oldVdom中的位置
 
 	if (oldVnode === vnode)，他们的引用一致，可以认为没有变化。
-	if(oldVnode.text !== null && vnode.text !== null && oldVnode.text !== vnode.text)，文本节点的比较，需要修改，则会调用Node.textContent = vnode.text。
-	if( oldCh && ch && oldCh !== ch ), 两个节点都有子节点，而且它们不一样，这样我们会调用 updateChildren 函数比较子节点，这是diff的核心，后边会讲到。
+	if (oldVnode.text !== null && vnode.text !== null && oldVnode.text !== vnode.text)，文本节点的比较，需要修改，则会调用Node.textContent = vnode.text。
+	if ( oldCh && ch && oldCh !== ch ), 两个节点都有子节点，而且它们不一样，这样我们会调用 updateChildren 函数比较子节点，这是diff的核心，后边会讲到。
 	if (ch)，只有新的节点有子节点，调用createEle(vnode)，vnode.el已经引用了老的dom节点，createEle函数会在老dom节点上添加子节点。
 	if (oldCh)，新节点没有子节点，老节点有子节点，直接删除老节点。
 
@@ -641,7 +651,7 @@ Object.defineProperty(o, "b", {
 
 	(1)用JS表示DOM结构
 
-		Velement(tagname,props,child){}
+	Velement(tagname,props,child){}
 
 
 
@@ -693,6 +703,19 @@ Object.defineProperty(o, "b", {
 
 
 
+
+	安装 sass 
+
+	npm install node-sass --save-dev
+
+	npm install sass-loader --save-dev
+
+	{
+      test: /\.scss$/,
+      loaders: ["style", "css", "sass"]
+    }
+
+    <style lang="scss" scoped>  </style>
 
 
 
